@@ -17,7 +17,7 @@ namespace NITW_Dialogue_Tool
 {
     public partial class Form1 : Form
     {
-        string version = "1.1.0";
+        string version = "1.2.0";
 
         yarnDictionary rootz = JsonUtil.loadYarnDictionary();
         FileSystemWatcher watcher = new FileSystemWatcher();
@@ -27,6 +27,14 @@ namespace NITW_Dialogue_Tool
         public Form1()
         {
             InitializeComponent();
+
+#if DEBUG   // SB: This is a useful thing for testing asset read/write
+            groupBox1.Visible = true;
+#endif
+
+            // SB: Disabling these until I vet the UnityEngine bit
+            btnDebugMode.Enabled = false;
+            btnDisableDebugMode.Enabled = false;
         }
 
         [DllImport("user32.dll")]
@@ -562,13 +570,16 @@ namespace NITW_Dialogue_Tool
         [JsonProperty("originalContent")]
         public string originalContent { get; set; }
 
+        [JsonProperty("objectEntrySize")]    // SB: NEW 9/8/19 -- Rather than hardcode numbers, let's track this
+        public int objectEntrySize { get; set; }
+
         public yarnFile()
         {
             this.yarnFileName = "";
         }
 
         public yarnFile(string assetsFilePathArg, long indexArg, uint offsetArg, uint lengthArg, string yarnFileNameArg, string originalContentArg, string yarnPathArg, DateTime lastModifiedArg, 
-            uint objectDataOffsetArg, int objectInfoCountArg, long objectInfoPositionArg)
+            uint objectDataOffsetArg, int objectInfoCountArg, long objectInfoPositionArg, int objectEntrySize)
         {
             this.assetsFilePath = assetsFilePathArg;
             this.index = indexArg;
@@ -582,6 +593,7 @@ namespace NITW_Dialogue_Tool
             this.objectDataOffset = objectDataOffsetArg;
             this.objectInfoCount = objectInfoCountArg;
             this.objectInfoPosition = objectInfoPositionArg;
+            this.objectEntrySize = objectEntrySize;
         }
     }
 }

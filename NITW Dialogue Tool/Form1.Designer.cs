@@ -114,7 +114,7 @@
             this.btnResetSA8.Name = "btnResetSA8";
             this.btnResetSA8.Size = new System.Drawing.Size(136, 23);
             this.btnResetSA8.TabIndex = 3;
-            this.btnResetSA8.Text = "reset sharedassets8";
+            this.btnResetSA8.Text = "reset sharedassets11";
             this.btnResetSA8.UseVisualStyleBackColor = true;
             this.btnResetSA8.Click += new System.EventHandler(this.btnResetSA8_Click);
             // 
@@ -446,8 +446,8 @@
             this.txtTest.Name = "txtTest";
             this.txtTest.Size = new System.Drawing.Size(587, 20);
             this.txtTest.TabIndex = 18;
-            this.txtTest.Text = "D:\\Program Files (x86)\\Steam\\steamapps\\common\\Night in the Woods\\Night in the Woo" +
-    "ds_Data\\sharedassets14.assets";
+            this.txtTest.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Night in the Woods\\Night in the Woo" +
+    "ds_Data\\sharedassets11.assets";
             // 
             // linkLabelDebugMode
             // 
@@ -501,11 +501,11 @@
             // labelCredits
             // 
             this.labelCredits.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCredits.Location = new System.Drawing.Point(675, 330);
+            this.labelCredits.Location = new System.Drawing.Point(620, 330);
             this.labelCredits.Name = "labelCredits";
-            this.labelCredits.Size = new System.Drawing.Size(128, 32);
+            this.labelCredits.Size = new System.Drawing.Size(183, 32);
             this.labelCredits.TabIndex = 13;
-            this.labelCredits.Text = "by emberimp\r\nand AlexWaveDiver";
+            this.labelCredits.Text = "by emberimp, AlexWaveDiver\r\nWeird Autumn fix by Cpt. Southbird";
             this.labelCredits.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // btnSaveSettings
