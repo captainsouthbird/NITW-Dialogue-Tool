@@ -407,8 +407,8 @@ namespace NITW_Dialogue_Tool
 
         private void btnResetSA8_Click(object sender, EventArgs e) //for testing
         {
-            File.Copy(Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data\#sharedassets", "sharedassets11_2.assets"), 
-                Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data", "sharedassets11.assets"), true);
+            File.Copy(Path.Combine(@"C:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data\#sharedassets", "sharedassets11_2.assets"), 
+                Path.Combine(@"C:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data", "sharedassets11.assets"), true);
         }
         
         private void btnTest_Click(object sender, EventArgs e) //for testing

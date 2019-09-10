@@ -34,18 +34,23 @@ namespace NITW_Dialogue_Tool
             return BitConverter.ToUInt32(objectDataOffsetBytes, 0);
         }
 
-        public static void AlignStream(this BinaryReader reader)
-        {
-            reader.AlignStream(4);
-        }
-
-        public static void AlignStream(this BinaryReader reader, int alignment)
+        public static void AlignStream(this BinaryReader reader, int alignment = 4)
         {
             var pos = reader.BaseStream.Position;
             var mod = pos % alignment;
             if (mod != 0)
             {
                 reader.BaseStream.Position += alignment - mod;
+            }
+        }
+
+        public static void AlignStream(this BinaryWriter writer, int alignment = 4)
+        {
+            var pos = writer.BaseStream.Position;
+            var mod = pos % alignment;
+            if (mod != 0)
+            {
+                writer.BaseStream.Position += alignment - mod;
             }
         }
 
@@ -572,13 +577,23 @@ namespace NITW_Dialogue_Tool
                 const int offsetToIndex = 0;    // SB: 8 bytes long (in file versions >= 14)    Won't work for file version < 14 (where this is Int32), but that doesn't apply to NITW
                 const int offsetToOffset = offsetToIndex + 8;   // SB: 4 bytes long
                 const int offsetToLength = offsetToOffset + 4;  // SB: 4 bytes long
+                uint m_Version;
 
                 //put all object offsets in a list
                 using (BinaryReader reader = new BinaryReader(File.Open(f.assetsFilePath, FileMode.Open)))
                 {
+                    reader.ReadUInt32BE();
+                    reader.ReadUInt32BE();
+                    m_Version = reader.ReadUInt32BE();
+
                     reader.BaseStream.Seek(f.objectInfoPosition, SeekOrigin.Begin);
                     for (int i = 0; i < f.objectInfoCount; i++)
                     {
+                        if (m_Version >= 14)
+                        {
+                            reader.AlignStream();
+                        }
+
                         //skip uint64 index
                         reader.BaseStream.Seek(offsetToOffset, SeekOrigin.Current);
 
@@ -606,6 +621,11 @@ namespace NITW_Dialogue_Tool
                     long indexPosition = (f.index - 1) * f.objectEntrySize;     // SB: removed hardcoded value
                     writer.BaseStream.Seek(f.objectInfoPosition + indexPosition, SeekOrigin.Begin);
 
+                    if (m_Version >= 14)
+                    {
+                        writer.AlignStream();
+                    }
+
                     //update yarn length
                     {
                         writer.BaseStream.Seek(offsetToLength, SeekOrigin.Current);
@@ -618,6 +638,11 @@ namespace NITW_Dialogue_Tool
                     //update all offsets behind f.index
                     for (int i = (int)(f.index); i < f.objectInfoCount; i++)
                     {
+                        if (m_Version >= 14)
+                        {
+                            writer.AlignStream();
+                        }
+
                         uint newOffset = (uint)(offsets[i] + offsetDelta);
 
                         writer.BaseStream.Seek(offsetToOffset, SeekOrigin.Current);
