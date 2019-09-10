@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
 using NITW_Dialogue_Tool.Resources;
+using System.Security.Cryptography;
 
 namespace NITW_Dialogue_Tool
 {
@@ -31,10 +32,6 @@ namespace NITW_Dialogue_Tool
 #if DEBUG   // SB: This is a useful thing for testing asset read/write
             groupBox1.Visible = true;
 #endif
-
-            // SB: Disabling these until I vet the UnityEngine bit
-            btnDebugMode.Enabled = false;
-            btnDisableDebugMode.Enabled = false;
         }
 
         [DllImport("user32.dll")]
@@ -314,34 +311,104 @@ namespace NITW_Dialogue_Tool
             UnityAssetFile.write("BusStation.yarn", ref rootz);
             btnWrite.Enabled = true;
         }
-        
+
+        private static string originalMD5 = "EA-98-90-AE-8C-20-59-53-BC-28-7A-47-E1-F1-D7-C7";  // SB: Original Build 406 (Weird Autumn) DLL
+        private static string modifiedMD5 = "04-91-05-15-11-C8-EF-31-CD-C1-6D-AD-22-2F-FB-F5";  // SB: My modified DLL only
+
+        private string GetDLLMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return BitConverter.ToString(md5.ComputeHash(stream));
+                }
+            }
+        }
+
         private void btnDebugMode_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Path.Combine(txtNITWpath.Text + @"\Night in the Woods_Data\Managed", "UnityEngine.dll"), Properties.Resources.UnityEngine_ForceDebugMode);
+            var target = Path.Combine(txtNITWpath.Text + @"\Night in the Woods_Data\Managed", "Assembly-CSharp.dll");
 
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Update();
+            // Verify which DLL we're dealing with first
+            var currentMD5 = GetDLLMD5(target);
 
-            Log("Modified UnityEngine.dll copied to NITW folder");
-            Log("Press ` (back quote) ingame to show the debug menu");
-            Log("Press TAB ingame to speed up the game");
-            Log("See nightinthewoods.gamepedia.com/Debug_Mode for more info", true);
+            var proceed = false;
+
+            if (currentMD5 == originalMD5)
+            {
+                if (MessageBox.Show("Are you sure you want to patch your game assembly?\r\nThis is a little experimental since Southbird isn't sure he didn't break other things...", "Patch Game Assembly", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    proceed = true;
+                }
+            }
+            else if(currentMD5 == modifiedMD5)
+            {
+                MessageBox.Show("You're already using the patched game assembly (i.e. Build 406 \"Weird Autumn\")!");
+            }
+            else
+            {
+                if (MessageBox.Show($"WARNING: Unrecognized/old game assembly (i.e. not Build 406 \"Weird Autumn\") with hash = {currentMD5}\r\nARE YOU SURE YOU WANT TO PATCH YOUR GAME ASSEMBLY? This may result in disaster and we can't recover from it!!", "Patch Game Assembly", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    proceed = true;
+                }
+            }
+
+            if (proceed)
+            {
+                File.WriteAllBytes(target, Properties.Resources.Assembly_CSharp_ForceDebugMode);
+
+                tabControl1.SelectedIndex = 0;
+                tabControl1.Update();
+
+                Log("Modified Assembly-CSharp.dll copied to NITW folder");
+                Log("Press ` (back quote) or F3 ingame to show the debug menu");
+                Log("Press TAB ingame to speed up the game");
+                Log("See nightinthewoods.gamepedia.com/Debug_Mode for more info", true);
+            }
         }
 
         private void btnDisableDebugMode_Click(object sender, EventArgs e)
         {
-            File.WriteAllBytes(Path.Combine(txtNITWpath.Text + @"\Night in the Woods_Data\Managed", "UnityEngine.dll"), Properties.Resources.UnityEngine_Original);
+            var target = Path.Combine(txtNITWpath.Text + @"\Night in the Woods_Data\Managed", "Assembly-CSharp.dll");
 
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Update();
+            // Verify which DLL we're dealing with first
+            var currentMD5 = GetDLLMD5(target);
 
-            Log("Unmodified UnityEngine.dll copied to NITW folder", true);
+            var proceed = false;
+
+            if (currentMD5 == originalMD5)
+            {
+                MessageBox.Show("You're already using the original game assembly (i.e. Build 406 \"Weird Autumn\")!");
+            }
+            else if (currentMD5 == modifiedMD5)
+            {
+                // Assume user wants to do this by default
+                proceed = true;
+            }
+            else
+            {
+                if (MessageBox.Show($"WARNING: Unrecognized game assembly (i.e. not Build 406 \"Weird Autumn\" modified) with hash = {currentMD5}\r\nARE YOU SURE YOU WANT TO RESTORE YOUR GAME ASSEMBLY? This may result in disaster and we can't recover from it!!", "Restore Game Assembly", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    proceed = true;
+                }
+            }
+
+            if (proceed)
+            {
+                File.WriteAllBytes(target, Properties.Resources.Assembly_CSharp_Original);
+
+                tabControl1.SelectedIndex = 0;
+                tabControl1.Update();
+
+                Log("Unmodified Assembly-CSharp.dll copied to NITW folder", true);
+            }
         }
 
         private void btnResetSA8_Click(object sender, EventArgs e) //for testing
         {
-            File.Copy(Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data\#sharedassets", "sharedassets8_2.assets"), 
-                Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data", "sharedassets8.assets"), true);
+            File.Copy(Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data\#sharedassets", "sharedassets11_2.assets"), 
+                Path.Combine(@"D:\Program Files (x86)\Steam\steamapps\common\Night in the Woods\Night in the Woods_Data", "sharedassets11.assets"), true);
         }
         
         private void btnTest_Click(object sender, EventArgs e) //for testing

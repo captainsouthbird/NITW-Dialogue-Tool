@@ -19,7 +19,7 @@ namespace NITW_Dialogue_Tool.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -63,9 +63,9 @@ namespace NITW_Dialogue_Tool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] UnityEngine_ForceDebugMode {
+        internal static byte[] Assembly_CSharp_ForceDebugMode {
             get {
-                object obj = ResourceManager.GetObject("UnityEngine_ForceDebugMode", resourceCulture);
+                object obj = ResourceManager.GetObject("Assembly-CSharp_ForceDebugMode", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace NITW_Dialogue_Tool.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] UnityEngine_Original {
+        internal static byte[] Assembly_CSharp_Original {
             get {
-                object obj = ResourceManager.GetObject("UnityEngine_Original", resourceCulture);
+                object obj = ResourceManager.GetObject("Assembly-CSharp_Original", resourceCulture);
                 return ((byte[])(obj));
             }
         }

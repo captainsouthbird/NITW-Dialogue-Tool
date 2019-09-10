@@ -412,9 +412,9 @@
             this.labelDisableDebugMode.AutoSize = true;
             this.labelDisableDebugMode.Location = new System.Drawing.Point(170, 212);
             this.labelDisableDebugMode.Name = "labelDisableDebugMode";
-            this.labelDisableDebugMode.Size = new System.Drawing.Size(176, 13);
+            this.labelDisableDebugMode.Size = new System.Drawing.Size(201, 13);
             this.labelDisableDebugMode.TabIndex = 22;
-            this.labelDisableDebugMode.Text = "Restores the original UnityEngine.dll";
+            this.labelDisableDebugMode.Text = "Restores the original Assembly-CSharp.dll";
             // 
             // btnDisableDebugMode
             // 
@@ -452,7 +452,7 @@
             // linkLabelDebugMode
             // 
             this.linkLabelDebugMode.AutoSize = true;
-            this.linkLabelDebugMode.Location = new System.Drawing.Point(519, 183);
+            this.linkLabelDebugMode.Location = new System.Drawing.Point(563, 183);
             this.linkLabelDebugMode.Name = "linkLabelDebugMode";
             this.linkLabelDebugMode.Size = new System.Drawing.Size(232, 13);
             this.linkLabelDebugMode.TabIndex = 19;
@@ -474,9 +474,11 @@
             this.labelDebugMode.AutoSize = true;
             this.labelDebugMode.Location = new System.Drawing.Point(170, 183);
             this.labelDebugMode.Name = "labelDebugMode";
-            this.labelDebugMode.Size = new System.Drawing.Size(350, 13);
+            this.labelDebugMode.Size = new System.Drawing.Size(517, 26);
             this.labelDebugMode.TabIndex = 16;
-            this.labelDebugMode.Text = "Overwrites UnityEngine.dll in the NITW folder to enable the debug mode.";
+            this.labelDebugMode.Text = "Overwrites Assembly-CSharp.dll in the NITW folder to enable the debug mode.\r\nSB: " +
+    "This includes all debug functions, skipped intros, using ` or F3 for meu; build " +
+    "406 (Weird Autumn) ONLY!!";
             // 
             // labelSetup
             // 
