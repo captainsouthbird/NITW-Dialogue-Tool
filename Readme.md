@@ -1,12 +1,13 @@
 # NITW Dialogue Tool
 
 Tool to edit Night in the Woods dialogue.
+(Hopefully) fixed for Build 406, AKA "Weird Autumn Edition", by Captain Southbird!
 
 For more info on the yarn format see [InfiniteAmmoInc/Yarn](https://github.com/InfiniteAmmoInc/Yarn) and for more info on editing specific to NITW see [Editing Dialogue on the NITW wiki](https://nightinthewoods.gamepedia.com/Editing_Dialogue).
 
 ### How To
 
-  - [Download](https://github.com/emberimp/NITW-Dialogue-Tool/releases) the latest version, extract it somehwere and open it
+  - [Download](https://github.com/captainsouthbird/NITW-Dialogue-Tool/releases) the latest version, extract it somehwere and open it
   - Check if the path is correct on the "More" tab
   - Press the "Run Setup" button
   - Once the setup is complete press the "Enable File Watcher" button
